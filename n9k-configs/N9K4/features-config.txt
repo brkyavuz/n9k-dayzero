@@ -1,0 +1,8 @@
+feature nxapi
+feature lldp
+feature ssh
+feature vpc
+feature lacp
+feature interface-vlan
+feature vrrp
+feature hsrp

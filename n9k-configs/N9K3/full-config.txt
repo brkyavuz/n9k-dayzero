@@ -1,0 +1,81 @@
+hostname N9K3
+
+feature nxapi
+feature lldp
+feature ssh
+feature vpc
+feature lacp
+feature interface-vlan
+feature vrrp
+feature hsrp
+
+vpc domain 11
+ peer-switch
+ role priority 1000
+ peer-keepalive destination 192.168.1.44 source 192.168.1.43 vrf management
+ delay restore 90
+ auto-recovery
+ ip arp synchronize
+ exit
+!
+interface port-channel100
+ description vPC-PeerLink
+ switchport
+ switchport mode trunk
+ spanning-tree port type network
+ vpc peer-link
+ lacp suspend-individual
+ no shutdown
+ exit
+!
+interface  e1/35,e1/36
+ description vPC-PeerLink
+ channel-group 100 force mode active
+ no shut
+spanning-tree mode mst
+spanning-tree mst 1 priority 0
+spanning-tree mst 2 priority 4096
+spanning-tree mst 3 priority 8192
+spanning-tree mst configuration
+name mst-name
+revision 1
+instance 1 vlan 500-1000
+instance 2 vlan 1001-1500
+instance 3 vlan 1501-2000
+
+vlan 800-900,1001-1007
+vlan 1001
+name VLAN-1001
+vlan 1002
+name VLAN-1002
+vlan 1003
+name VLAN-1003
+vlan 1004
+name VLAN-1004
+vlan 1005
+name VLAN-1005
+vlan 1006
+name VLAN-1006
+vlan 1007
+name VLAN-1007
+
+interface port-channel 2000
+exit
+interface e1/1-8
+channel-group 2000 mode passive
+
+
+interface vlan 1003
+ip address 192.168.3.100/24
+vrrp 103
+preempt
+priority 200
+ip 192.168.3.1
+no shutdown
+interface vlan 1004
+ip address 192.168.4.100/24
+hsrp 104
+preempt
+priority 200
+ip 192.168.4.1
+no shutdown

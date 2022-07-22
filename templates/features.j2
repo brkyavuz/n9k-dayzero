@@ -1,0 +1,7 @@
+{# Common Features#}
+feature nxapi
+feature lldp
+feature ssh
+{% for feature in features %}
+feature {{ feature}}
+{% endfor %}

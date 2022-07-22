@@ -1,0 +1,7 @@
+vlan {{ vlans }}
+{# VLANS #}
+{% for vlan in vlans_with_name %}
+{% set splitted_vlan = vlan.split(":") %}
+vlan {{ splitted_vlan[0] }}
+name {{ splitted_vlan[1] }}
+{% endfor %}

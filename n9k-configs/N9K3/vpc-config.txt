@@ -1,0 +1,23 @@
+vpc domain 11
+ peer-switch
+ role priority 1000
+ peer-keepalive destination 192.168.1.44 source 192.168.1.43 vrf management
+ delay restore 90
+ auto-recovery
+ ip arp synchronize
+ exit
+!
+interface port-channel100
+ description vPC-PeerLink
+ switchport
+ switchport mode trunk
+ spanning-tree port type network
+ vpc peer-link
+ lacp suspend-individual
+ no shutdown
+ exit
+!
+interface  e1/35,e1/36
+ description vPC-PeerLink
+ channel-group 100 force mode active
+ no shut

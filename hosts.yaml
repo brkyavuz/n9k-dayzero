@@ -1,0 +1,14 @@
+N9K1:
+  groups:
+  - nxos
+  hostname: 10.12.17.4
+  password: null
+  port: 22
+  username: null
+N9K2:
+  groups:
+  - nxos
+  hostname: 10.12.17.5
+  password: cisco
+  port: 22
+  username: cisco

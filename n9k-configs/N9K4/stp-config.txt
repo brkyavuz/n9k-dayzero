@@ -1,0 +1,10 @@
+spanning-tree mode mst
+spanning-tree mst 1 priority 0
+spanning-tree mst 2 priority 4096
+spanning-tree mst 3 priority 8192
+spanning-tree mst configuration
+name mst-name
+revision 1
+instance 1 vlan 500-1000
+instance 2 vlan 1001-1500
+instance 3 vlan 1501-2000
