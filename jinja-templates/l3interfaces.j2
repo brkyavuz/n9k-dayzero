@@ -1,0 +1,20 @@
+{# start interface for loop #}
+{% for intf in l3interfaces %}
+interface vlan {{ intf["vlan-id"] }}
+ ip address {{ intf.subnet }}
+{# start fhrp if condition #}
+{% if intf.fhrp %}
+ {{ intf["fhrp-type"] }} {{ intf["group-id"] | int }}
+ {# start preemt if condition #}
+ {% if intf.preempt %}
+ preempt
+ {% endif %}
+ {# end preempt if condition #}
+ priority {{ intf.priority | int }}
+ ip {{ intf["virtual-ip"]}}
+{% endif %}
+{# end fhrp if condition #}
+ no shutdown
+!
+{% endfor %}
+{# end interface for loop #}

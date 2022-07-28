@@ -4,5 +4,5 @@ feature ssh
 feature vpc
 feature lacp
 feature interface-vlan
-feature vrrp
 feature hsrp
+feature vrrp

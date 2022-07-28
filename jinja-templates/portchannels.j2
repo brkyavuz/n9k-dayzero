@@ -1,0 +1,21 @@
+{# start portchannel for loop #}
+{% for pc in portchannels %}
+interface port-channel {{ pc.id }}
+ {# start vpc if condition #}
+ {% if pc.isvpc %}
+ vpc {{ pc.id }}
+ {% endif %}
+ {# end vpc if condition #}
+ exit
+!
+interface {{ pc.members }}
+ {# start lacp if condition #}
+ {% if pc.lacp %}
+ channel-group {{ pc.id }} mode {{ pc["lacp-mode"] }}
+ {% else %}
+ channel-group {{ pc.id }}
+ {% endif %}
+ {# end lacp if condition #}
+!
+{% endfor %}
+{# end portchannel for loop #}

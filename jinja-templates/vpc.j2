@@ -1,0 +1,35 @@
+vpc domain {{ vpc["vpc-domain"] }}
+ peer-switch
+ {# start vpc peer-gateway if condition #}
+ {% if vpc["gw-enabled"] %}
+ peer-gateway
+ {% endif %}
+ {# end vpc peer-gateway if condition #}
+ {# start vpc role if condition #}
+ {% if vpc["role"] == "Primary" %}
+ role priority 1000
+ {% else %}
+ role priority 2000
+ {% endif %}
+ {# end vpc role if condition #}
+ peer-keepalive destination {{ vpc["dest-addr"] }} source {{ vpc["address"] }} vrf management
+ delay restore 90
+ auto-recovery
+ ip arp synchronize
+ exit
+!
+interface port-channel100
+ description vPC-PeerLink
+ switchport
+ switchport mode trunk
+ spanning-tree port type network
+ vpc peer-link
+ lacp suspend-individual
+ no shutdown
+ exit
+!
+interface  {{ vpc["peerlinks"] }}
+ description vPC-PeerLink
+ channel-group 100 force mode active
+ no shut
+!

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %} Push Configuration {% endblock title %}
+{% set active_page = "configuration" %}
+
+{% block content %}
+<div class="row">
+	<form action="" method="post">
+	<div class="card-group">
+		<div class="card bg-dark bordered border-secondary">
+			<div class="card-body">
+				<h5 class="card-title">Select Devices</h5>
+				<table id="deviceTable" class="table table-dark table-sm table-bordered">
+					<thead>
+						<tr>
+						<th class="text-center p-0 align-middle">
+							<input type="checkbox" onClick="toggle(this, 'device')">
+						</th>
+						<th>Host</th>
+						<th>Address</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for host in hosts %}
+						<tr>
+							<td class="text-center p-0 align-middle"><input type="checkbox" name="device" value="{{ host.name }}"></td>
+							<td>{{ host.name }}</td>
+							<td>{{ host.hostname }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="card bg-dark bordered border-secondary">
+			<div class="card-body">
+				<h5 class="card-title">Select Config Options</h5>
+				<table id="configOptionTable" class="table table-dark table-sm table-bordered">
+					<thead>
+						<tr>
+						<th class="text-center p-0 align-middle">
+							<input type="checkbox" onClick="toggle(this, 'config')">
+						</th>
+						<th>Config Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for config in config_options %}
+						<tr>
+							<td class="text-center p-0 align-middle"><input type="checkbox" name="config" value="{{ config}}"></td>
+							<td>{{ config }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<button class="btn btn-primary btn-md float-end my-2" type="submit">Submit</button>
+	</form>
+</div>
+{% if results | length != 0 %}
+<div class="row mt-4 px-3">
+	<div class="card bg-dark bordered border-secondary">
+		<div class="card-body">
+			<h5 class="card-title">Select Config Options</h5>
+			<table id="resultTable" class="table table-dark table-sm table-bordered">
+				<thead>
+					<tr>
+					<th>Host</th>
+					<th>Config Type</th>
+					<th>Status</th>
+					<th>Result</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for result in results %}
+					<tr>
+						<td>{{result[0]}}</td>
+						<td>{{result[1]}}</td>
+						<td class="text-{{ 'success' if result[2] == 'success' else 'danger'}}">{{result[2]}}</td>
+						<td>{{result[3]}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endif%}
+</div>
+{% endblock content %}
+{% block script %}
+
+<script>
+	function toggle(source,name) {
+		checkboxes = document.getElementsByName(name);
+		for(var i=0, n=checkboxes.length;i<n;i++) {
+			checkboxes[i].checked = source.checked;
+		}
+	}
+</script>
+<script>
+	$(document).ready(function() {
+  	$('#deviceTable').DataTable({
+			order:false
+		});
+	});
+
+	$(document).ready(function() {
+  	$('#configOptionTable').DataTable({
+			order:false
+		});
+	});
+	$(document).ready(function() {
+  	$('#resultTable').DataTable({
+			order:false
+		});
+	});
+</script>
+
+
+{% endblock script%}

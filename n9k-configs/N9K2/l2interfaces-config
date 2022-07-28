@@ -1,0 +1,40 @@
+interface e1/4-8
+ description FAKE1
+ switchport
+ switchport mode trunk
+ switchport trunk allowed vlan 1000-1100
+ spanning-tree port type edge trunk
+ spanning-tree bpdufilter enable
+ spanning-tree guard root
+ mtu 9216
+!
+interface e1/7,e1/11
+ description FAKE2
+ switchport
+ switchport mode access
+ switchport access vlan 2001
+ spanning-tree port type edge
+ spanning-tree bpduguard enable
+ spanning-tree guard loop
+ mtu 9216
+!
+interface po1000
+ description FAKE3
+ switchport
+ switchport mode trunk
+ switchport trunk allowed vlan 101,105,110,115-120
+ spanning-tree port type edge trunk
+ switchport trunk native vlan 10
+ spanning-tree bpdufilter enable
+ spanning-tree guard root
+ mtu 9216
+!
+interface po1001
+ description N/A
+ switchport
+ switchport mode access
+ switchport access vlan 2002
+ spanning-tree port type edge
+ spanning-tree bpduguard enable
+ spanning-tree guard loop
+!

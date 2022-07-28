@@ -2,13 +2,139 @@ N9K1:
   groups:
   - nxos
   hostname: 10.12.17.4
-  password: null
+  password: cisco
   port: 22
-  username: null
+  username: cisco
+N9K10:
+  groups:
+  - nxos
+  hostname: 10.12.17.13
+  password: cisco
+  port: 22
+  username: cisco
+N9K11:
+  groups:
+  - nxos
+  hostname: 10.12.17.14
+  password: cisco
+  port: 22
+  username: cisco
+N9K12:
+  groups:
+  - nxos
+  hostname: 10.12.17.15
+  password: cisco
+  port: 22
+  username: cisco
+N9K13:
+  groups:
+  - nxos
+  hostname: 10.12.17.16
+  password: cisco
+  port: 22
+  username: cisco
+N9K14:
+  groups:
+  - nxos
+  hostname: 10.12.17.17
+  password: cisco
+  port: 22
+  username: cisco
+N9K15:
+  groups:
+  - nxos
+  hostname: 10.12.17.18
+  password: cisco
+  port: 22
+  username: cisco
+N9K16:
+  groups:
+  - nxos
+  hostname: 10.12.17.19
+  password: cisco
+  port: 22
+  username: cisco
+N9K17:
+  groups:
+  - nxos
+  hostname: 10.12.17.20
+  password: cisco
+  port: 22
+  username: cisco
+N9K18:
+  groups:
+  - nxos
+  hostname: 10.12.17.21
+  password: cisco
+  port: 22
+  username: cisco
+N9K19:
+  groups:
+  - nxos
+  hostname: 10.12.17.22
+  password: cisco
+  port: 22
+  username: cisco
 N9K2:
   groups:
   - nxos
   hostname: 10.12.17.5
+  password: cisco
+  port: 22
+  username: cisco
+N9K20:
+  groups:
+  - nxos
+  hostname: 10.12.17.23
+  password: cisco
+  port: 22
+  username: cisco
+N9K3:
+  groups:
+  - nxos
+  hostname: 10.12.17.6
+  password: cisco
+  port: 22
+  username: cisco
+N9K4:
+  groups:
+  - nxos
+  hostname: 10.12.17.7
+  password: cisco
+  port: 22
+  username: cisco
+N9K5:
+  groups:
+  - nxos
+  hostname: 10.12.17.8
+  password: cisco
+  port: 22
+  username: cisco
+N9K6:
+  groups:
+  - nxos
+  hostname: 10.12.17.9
+  password: cisco
+  port: 22
+  username: cisco
+N9K7:
+  groups:
+  - nxos
+  hostname: 10.12.17.10
+  password: cisco
+  port: 22
+  username: cisco
+N9K8:
+  groups:
+  - nxos
+  hostname: 10.12.17.11
+  password: cisco
+  port: 22
+  username: cisco
+N9K9:
+  groups:
+  - nxos
+  hostname: 10.12.17.12
   password: cisco
   port: 22
   username: cisco

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %} Generate Configuration {% endblock title %}
+{% set active_page = "configuration" %}
+
+{% block content %}
+<div class="row mt-4 px-1">
+<form  method="POST" enctype="multipart/form-data">
+	<div class="col-6">
+		<label for="inputGroupFile" class="form-label">Select the Day Zero Excel file to update configurations</label>
+		<div class="input-group">
+			<input type="file" name=file class="form-control" id="inputGroupFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
+			<button class="btn btn-primary" type="submit" id="inputGroupFileAddon">Update</button>
+		</div>
+	</div>
+	</div>
+</form>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+			<small class="text-danger" >{{ message }}</small>
+		{% endfor %}
+		</ul>
+	{% endif %}
+{% endwith %}
+</div>
+<div class="row mt-4 px-3">
+<table class="table table-dark table-bordered" id="configTable">
+	<thead>
+		<tr>
+		<th scope="col">Host</th>
+		<th scope="col">Configurations</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for host,configs in config_files.items() %}
+		<tr>
+			<td>{{ host }}</td>
+			<td>
+				{% for config in configs %}
+				<button type="button" data-id="{{host}}:{{config}}" name={{config}} class="btn btn-sm btn-primary config-btn" data-bs-toggle="modal" data-bs-target="#configModal">
+					{{config}}
+				  </button>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+	  <div class="modal-content bg-dark">
+		<div class="modal-header ">
+		  <h5 class="modal-title" id="configModalLabel"></h5>
+		  <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<pre class="modal-pre-config"></pre>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+{% endblock content %}
+{% block script %}
+<script>
+	$(document).ready(function() {
+  	$('#configTable').DataTable({
+			order:false
+		});
+	});
+</script>
+<script>
+  $(document).ready(function(){
+
+	$('.config-btn').click(function(){
+
+	  var btnid = $(this).data('id');
+
+	  // AJAX request
+	  $.ajax({
+	   url: 'config/get/'+ btnid,
+	   type: 'get',
+	   success: function(response){
+		 // Add response in Modal body
+		 $('.modal-title').html(response.title);
+		 $('.modal-pre-config').html(response.config);
+
+		 // Display Modal
+		 $('#configModal').modal('show');
+	   }
+	 });
+	});
+   });
+</script>
+{% endblock %}

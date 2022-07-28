@@ -1,13 +1,10 @@
 from jinja2 import Environment, FileSystemLoader
 
-FEATURES = {
-	"vpc": [ "vpc", "lacp" ],
-	"l3interfaces": [ "interface-vlan", "hsrp", "vrrp" ]
-}
+CONFIG_OPTIONS = ["features", "vpc","vlans","stp","portchannels","l2interfaces","l3interfaces"]
 
 def render_config_data(data,template_name):
 	env = Environment(
-        loader=FileSystemLoader("./templates"), trim_blocks=True, lstrip_blocks=True
+        loader=FileSystemLoader("./jinja-templates"), trim_blocks=True, lstrip_blocks=True
     )
 	template = env.get_template(template_name)
 	rendered = template.render(data)
@@ -17,7 +14,7 @@ def render_config_data(data,template_name):
 
 def write_config_data(data, filepath, filename):
 
-	with open(f"{filepath}/{filename}.txt", "w+") as f:
+	with open(f"{filepath}/{filename}", "w+") as f:
 		f.write(data)
 
 

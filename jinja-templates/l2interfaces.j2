@@ -1,0 +1,66 @@
+{# start interface for loop #}
+{% for intf in l2interfaces %}
+interface {{ intf.interface }}
+ description {{intf.description}}
+ switchport
+ switchport mode {{ intf.mode }}
+ {# start trunk if condition #}
+ {% if intf.mode == "trunk" %}
+ switchport trunk allowed vlan {{intf.vlans}}
+ {# start trunk edge if condition #}
+ {% if intf.edge%}
+ spanning-tree port type edge trunk
+ {% endif %}
+ {# end trunk edge if condition #}
+ {# start trunk native if condition #}
+ {% if intf["native-vlan"] != 1 %}
+ switchport trunk native vlan {{ intf["native-vlan"] | int }}
+ {% endif %}
+ {# end trunk native if condition #}
+ {# start trunk else condition (Access) #}
+ {% else%}
+ {# start access edge if condition #}
+ switchport access vlan {{ intf.vlans }}
+ {% if intf.edge%}
+ spanning-tree port type edge
+ {% endif %}
+ {# end Access edge if condition #}
+ {% endif %}
+ {# end trunk if condition #}
+ {# start bpdufilter if condition #}
+ {% if intf["bpdu-filter"] %}
+ spanning-tree bpdufilter enable
+ {% endif %}
+ {# end bpdufilter if condition #}
+ {# start bpduguard if condition #}
+ {% if intf["bpdu-guard"] %}
+ spanning-tree bpduguard enable
+ {% endif %}
+ {# end bpduguard if condition #}
+ {# start rootguard if condition #}
+ {% if intf["root-guard"] %}
+ spanning-tree guard root
+ {% endif %}
+ {# end rootguard if condition #}
+ {# start loopguard if condition #}
+ {% if intf["loop-guard"] %}
+ spanning-tree guard loop
+ {% endif %}
+ {# end loopguard if condition #}
+ {# start stormcontrol if condition #}
+ {% if intf["storm-control"] != "N/A" %}
+ {% set sc_values = intf["storm-control"].split(",") %}
+ storm-control broadcast level {{ sc_values[0] }}
+ storm-control uknown-unicast level {{ sc_values[1] }}
+ storm-control multicast level {{ sc_values[2] }}
+ storm-control action {{ sc_values[3] }}
+ {% endif %}
+ {# end stormcontrol if condition #}
+ {# start mtu if condition #}
+ {% if intf.mtu != "N/A" %}
+ mtu {{ intf.mtu | int }}
+ {% endif %}
+ {# end mtu if condition #}
+!
+{% endfor %}
+{# end interface for Loop #}

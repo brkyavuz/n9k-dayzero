@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+	<div class="container-fluid">
+	  <a class="navbar-brand" href="#">DZAutomation</a>
+	  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		  <li class="nav-item">
+			<a class="nav-link {{ 'active' if active_page =='home' else ''}}" href="/">Home</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link {{ 'active' if active_page =='inventory' else ''}}" href="inventory">Inventory</a>
+		  </li>
+		  <li class="nav-item dropdown">
+			<a class="nav-link {{ 'active' if active_page =='configuration' else ''}}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			  Configuration
+			</a>
+			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			  <li><a class="dropdown-item" href="generate">Generate Config</a></li>
+			  <li><a class="dropdown-item" href="configure">Send Generated Config</a></li>
+			</ul>
+		  </li>
+		</ul>
+	  </div>
+	</div>
+  </nav>

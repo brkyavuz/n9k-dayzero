@@ -1,0 +1,58 @@
+hostname N9K12
+!
+feature nxapi
+feature lldp
+feature ssh
+feature vpc
+feature lacp
+
+vpc domain 15
+ peer-switch
+ role priority 2000
+ peer-keepalive destination 192.168.1.51 source 192.168.1.52 vrf management
+ delay restore 90
+ auto-recovery
+ ip arp synchronize
+ exit
+!
+interface port-channel100
+ description vPC-PeerLink
+ switchport
+ switchport mode trunk
+ spanning-tree port type network
+ vpc peer-link
+ lacp suspend-individual
+ no shutdown
+ exit
+!
+interface  e1/35,e1/36
+ description vPC-PeerLink
+ channel-group 100 force mode active
+ no shut
+!
+vlan 800-900,1001-1009
+vlan 1001
+ name VLAN-1001
+!
+vlan 1002
+ name VLAN-1002
+!
+vlan 1003
+ name VLAN-1003
+!
+vlan 1004
+ name VLAN-1004
+!
+vlan 1005
+ name VLAN-1005
+!
+vlan 1006
+ name VLAN-1006
+!
+vlan 1007
+ name VLAN-1007
+!
+
+
+
+

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %} Inventory {% endblock title %}
+{% set active_page = "inventory" %}
+
+{% block content %}
+<div class="row mt-4 px-1">
+	<form  method="POST" enctype="multipart/form-data">
+		<div class="col-6">
+		<label for="inputGroupFile" class="form-label">Select the Inventory Excel file to update Inventory</label>
+		<div class="input-group">
+			<input type="file" name=file class="form-control" id="inputGroupFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
+			<button class="btn btn-primary" type="submit" id="inputGroupFileAddon">Update</button>
+		</div>
+	</div>
+	</form>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class=flashes>
+			{% for message in messages %}
+				<small class="text-danger" >{{ message }}</small>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+</div>
+<div class="row mt-4 px-3">
+	<table class="table table-dark table-sm" id="inventoryTable">
+		<thead>
+			<tr>
+			<th scope="col">Host</th>
+			<th scope="col">Address</th>
+			<th scope="col">Port</th>
+			<th scope="col">Username</th>
+			<th scope="col">Password</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for host in hosts %}
+			<tr>
+				<td>{{ host.name }}</td>
+				<td>{{ host.hostname }}</td>
+				<td>{{ host.port }}</td>
+				<td>{{ host.username }}</td>
+				<td>{{ host.password }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+	$(document).ready(function() {
+  	$('#inventoryTable').DataTable({
+		});
+	});
+</script>
+{% endblock script %}

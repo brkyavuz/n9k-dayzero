@@ -1,0 +1,27 @@
+{# start stp mode if condition #}
+{% if stp["mode"] == "mst" %}
+spanning-tree mode mst
+{# start mst instance priorities loop #}
+{% for elem in stp["mst"] %}
+{% set values = elem.split(":") %}
+spanning-tree mst {{ values[0] }} priority {{ values[2] }}
+{% endfor %}
+{# end mst instance priorities loop #}
+spanning-tree mst configuration
+ name {{ stp["name"] }}
+ revision {{ stp["revision"] | int }}
+ {# start stp instances loop #}
+ {% for elem in stp["mst"] %}
+ {% set values = elem.split(":") %}
+ instance {{ values[0] }} vlan {{ values[1] }}
+ {% endfor %}
+ {# end stp instances loop #}
+{% else %}
+{# start pvst instance priorities loop #}
+{% for elem in stp["pvst"] %}
+{% set values = elem.split(":") %}
+spanning-tree vlan {{ values[0] }} priority {{ values[1] }}
+{% endfor %}
+{# end pvst instance priorities loop #}
+{% endif%}
+{# end stp mode if condition #}
