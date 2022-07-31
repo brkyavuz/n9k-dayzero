@@ -78,7 +78,16 @@
 						<td>{{result[0]}}</td>
 						<td>{{result[1]}}</td>
 						<td class="text-{{ 'success' if result[2] == 'success' else 'danger'}}">{{result[2]}}</td>
-						<td>{{result[3]}}</td>
+						<td>
+							<button 
+								type="button" 
+								data-result="{{result[3]}}" 
+								class="btn btn-sm result-btn btn-{{ 'success' if result[2] == 'success' else 'danger'}}"
+								data-bs-toggle="modal" 
+								data-bs-target="#resultModal"
+								>Result
+							</button>
+						</td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -88,6 +97,21 @@
 </div>
 {% endif%}
 </div>
+
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+	  <div class="modal-content bg-dark">
+		<div class="modal-header ">
+		  <h5 class="modal-title" id="resultModalLabel">Result</h5>
+		  <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<pre class="modal-pre-result"></pre>
+		</div>
+	  </div>
+	</div>
+</div>
+
 {% endblock content %}
 {% block script %}
 
@@ -118,5 +142,15 @@
 	});
 </script>
 
+<script>
+  $(document).ready(function(){
 
+	$('.result-btn').click(function(){
+
+	  var resultData = $(this).data('result');
+		$('.modal-pre-result').html(resultData);
+		$('#resultModal').modal('show');
+		});
+  });
+</script>
 {% endblock script%}

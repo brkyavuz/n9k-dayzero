@@ -1,6 +1,0 @@
-interface port-channel 2000
- exit
-!
-interface e1/1-8
- channel-group 2000 mode passive
-!

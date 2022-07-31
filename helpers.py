@@ -1,6 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 
-CONFIG_OPTIONS = ["features", "vpc","vlans","stp","portchannels","l2interfaces","l3interfaces"]
+CONFIG_OPTIONS = ["features", "vpc", "vlans", "stp", "portchannels", "l2interfaces", "l3interfaces"]
 
 def render_config_data(data,template_name):
 	env = Environment(

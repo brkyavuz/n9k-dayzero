@@ -7,7 +7,9 @@
 		  <div class="col-sm-6">
 			<ol class="breadcrumb float-end">
 			  <li class="breadcrumb-item"><a href="/">home</a></li>
+				{% if active_page != "home" %}
 			  <li class="breadcrumb-item active">{{active_page}}</li>
+				{% endif %}
 			</ol>
 		</div>
 	  </div>

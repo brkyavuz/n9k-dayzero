@@ -2,6 +2,8 @@ import json
 from flask import Flask, redirect, render_template, url_for, request, flash, jsonify
 from werkzeug.utils import secure_filename
 from nornir import InitNornir
+from nornir.core.filter import F
+from nornir_scrapli.tasks import send_configs
 from parser import Parser
 from helpers import render_config_data, write_config_data, CONFIG_OPTIONS
 import pathlib
@@ -19,17 +21,30 @@ app.config["SECRET_KEY"] = "aSecretKey"
 app.config["UPLOAD_FOLDER"] = BASE_DIR
 
 
-def get_inventory():
-	nr = InitNornir("config.yaml")
-	hosts = nr.inventory.dict()["hosts"].values()
-	return hosts
+def send_configs_from_file(task, filename):
+	config_dir = f"n9k-configs/{task.host.name}/{filename}"
+
+	with open(config_dir) as f:
+		data = f.read()
+		commands = data.split('\n')
+		commands = [command.lstrip() for command in commands if command != "!" ]
+
+
+	task.run(task=send_configs, configs=commands)
+	
+
+def get_inventory(target_hosts=[]):
+    nr = InitNornir("config.yaml")
+    if target_hosts:
+        return nr.filter(F(name__any=target_hosts))
+    else:
+        return nr.filter()
 
 def generate_inventory(filename):
 	df = pd.read_excel(filename)
 
 	if df[["name", "hostname", "groups"]].isnull().values.any():
 		return "mandatory columns (name, hostname and groups) are can not be empty"
-		sys.exit()
 	else:
 		hosts = {}
 
@@ -105,7 +120,7 @@ def inventory():
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			generate_inventory(filename)
 
-	hosts = get_inventory()
+	hosts = get_inventory().inventory.dict()["hosts"].values()
 
 	return render_template("inventory.html", hosts=hosts)
 
@@ -145,16 +160,20 @@ def generate():
 
 @app.route("/configure", methods=['GET','POST'])
 def configure():
-	hosts = get_inventory()
+	hosts = get_inventory().inventory.dict()["hosts"].values()
 	results = []
 	if request.method == 'POST':
 		devices = request.form.getlist("device")
 		configs = request.form.getlist("config")
+		target_hosts = get_inventory(target_hosts=devices)
 
-		for device in devices:
-			for config in configs:
-				result = (device,config,random.choice(["failed","success"]),"SOME DUMMY OUTPUT")
-				results.append(result)
+		for config in CONFIG_OPTIONS:
+			if config in configs:
+				config_results = target_hosts.run(send_configs_from_file, filename=f"{config}-config")
+				for host in config_results:
+					result = config_results[host][1]
+					status = "failed" if result.failed else "success"
+					results.append((host, config, status, result.result))
 
 	return render_template("configure.html", hosts=hosts, config_options=CONFIG_OPTIONS, results=results)
 

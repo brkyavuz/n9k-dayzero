@@ -1,5 +1,0 @@
-feature nxapi
-feature lldp
-feature ssh
-feature vpc
-feature lacp

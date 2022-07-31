@@ -2,7 +2,7 @@ interface port-channel 1000
  vpc 1000
  exit
 !
-interface e1/1,e1/2,e1/11-12
+interface e1/5,e1/6,e1/15-16
  channel-group 1000 mode active
 !
 interface port-channel 1001

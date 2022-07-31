@@ -62,6 +62,7 @@ class Parser:
 		for node in data['node'].unique():
 			temp_dict = {}
 			cfg_data = data[data['node'] == node].fillna("N/A").to_dict("records")
+			
 			for node in cfg_data:
 				if not temp_dict.get("mode"):
 					temp_dict["mode"] = node["mode"]
@@ -74,7 +75,14 @@ class Parser:
 					keypair (temp_dict, "mst", f'{node["instance"]}:{node["vlans"]}:{node["priority"]}')
 				else:
 					keypair (temp_dict, "pvst", f'{node["vlans"]}:{node["priority"]}')
+			
+			if temp_dict.get("mst"):
+				temp_dict["mst"] = temp_dict["mst"] if isinstance(temp_dict["mst"], list) else [temp_dict["mst"]]
+			else:
+				temp_dict["pvst"] = temp_dict["pvst"] if isinstance(temp_dict["pvst"], list) else [temp_dict["pvst"]]
+
 			cfg[node["node"]] = {"stp": temp_dict}
+
 		return cfg
 
 	def feature_parser(self,):

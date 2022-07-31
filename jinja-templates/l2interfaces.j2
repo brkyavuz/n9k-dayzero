@@ -51,7 +51,7 @@ interface {{ intf.interface }}
  {% if intf["storm-control"] != "N/A" %}
  {% set sc_values = intf["storm-control"].split(",") %}
  storm-control broadcast level {{ sc_values[0] }}
- storm-control uknown-unicast level {{ sc_values[1] }}
+ storm-control unicast level {{ sc_values[1] }}
  storm-control multicast level {{ sc_values[2] }}
  storm-control action {{ sc_values[3] }}
  {% endif %}

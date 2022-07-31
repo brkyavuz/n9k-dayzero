@@ -2,7 +2,7 @@ vpc domain 10
  peer-switch
  peer-gateway
  role priority 2000
- peer-keepalive destination 192.168.1.41 source 192.168.1.42 vrf management
+ peer-keepalive destination 192.168.128.41 source 192.168.128.42 vrf management
  delay restore 90
  auto-recovery
  ip arp synchronize
@@ -18,7 +18,7 @@ interface port-channel100
  no shutdown
  exit
 !
-interface  e1/35,e1/36
+interface  e1/1-2
  description vPC-PeerLink
  channel-group 100 force mode active
  no shut

@@ -1,3 +1,1 @@
-spanning-tree vlan 500-1000 priority 0
-spanning-tree vlan 1001-1500 priority 4096
-spanning-tree vlan 1501-2000 priority 8192
+spanning-tree vlan 1001-1020,2001,2002 priority 4096
