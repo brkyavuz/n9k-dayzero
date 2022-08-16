@@ -1,8 +1,16 @@
 interface vlan 1002
  ip address 192.168.2.100/24
+ no shutdown
  hsrp 102
  preempt
  priority 200
  ip 192.168.2.1
+!
+interface vlan 1003
+ ip address 192.168.3.100/24
  no shutdown
+ vrrp 102
+ preempt
+ priority 200
+ address 192.168.3.1
 !

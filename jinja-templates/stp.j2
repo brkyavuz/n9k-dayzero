@@ -15,6 +15,7 @@ spanning-tree mst configuration
  {% set values = elem.split(":") %}
  instance {{ values[0] }} vlan {{ values[1] }}
  {% endfor %}
+ exit
  {# end stp instances loop #}
 {% else %}
 {# start pvst instance priorities loop #}

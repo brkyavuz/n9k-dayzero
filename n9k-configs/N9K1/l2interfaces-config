@@ -11,3 +11,17 @@ interface e1/3
  storm-control action trap
  mtu 9216
 !
+interface port-channel1000
+ description To-Host2
+ switchport
+ switchport mode trunk
+ switchport trunk allowed vlan 1001-1020
+ spanning-tree port type edge trunk
+ spanning-tree bpdufilter enable
+ spanning-tree guard root
+ storm-control broadcast level 5
+ storm-control unicast level 5
+ storm-control multicast level 5
+ storm-control action trap
+ mtu 9216
+!

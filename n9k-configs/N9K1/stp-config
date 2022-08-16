@@ -1,1 +1,13 @@
-spanning-tree vlan 1001-1020,2001,2002 priority 4096
+spanning-tree mode mst
+spanning-tree mst 1 priority 0
+spanning-tree mst 2 priority 4096
+spanning-tree mst 3 priority 8192
+spanning-tree mst 4 priority 32768
+spanning-tree mst configuration
+ name deneme
+ revision 1
+ instance 1 vlan 1001-1010
+ instance 2 vlan 1011-1020
+ instance 3 vlan 2001
+ instance 4 vlan 2002
+ exit

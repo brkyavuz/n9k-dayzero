@@ -3,4 +3,5 @@ feature lldp
 feature vpc
 feature lacp
 feature interface-vlan
+feature vrrp
 feature hsrp

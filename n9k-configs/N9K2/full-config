@@ -5,6 +5,7 @@ feature lldp
 feature vpc
 feature lacp
 feature interface-vlan
+feature vrrp
 feature hsrp
 
 vpc domain 10
@@ -55,7 +56,19 @@ vlan 1007
  name VLAN-1007
 !
 
-spanning-tree vlan 1001-1020,2001,2002 priority 4096
+spanning-tree mode mst
+spanning-tree mst 1 priority 0
+spanning-tree mst 2 priority 4096
+spanning-tree mst 3 priority 8192
+spanning-tree mst 4 priority 32768
+spanning-tree mst configuration
+ name deneme
+ revision 1
+ instance 1 vlan 1001-1010
+ instance 2 vlan 1011-1020
+ instance 3 vlan 2001
+ instance 4 vlan 2002
+ exit
 
 interface port-channel 1000
  vpc 1000
@@ -89,9 +102,17 @@ interface e1/3
 
 interface vlan 1002
  ip address 192.168.2.101/24
+ no shutdown
  hsrp 102
  preempt
  priority 150
  ip 192.168.2.1
+!
+interface vlan 1003
+ ip address 192.168.3.101/24
  no shutdown
+ vrrp 102
+ preempt
+ priority 150
+ address 192.168.3.1
 !
